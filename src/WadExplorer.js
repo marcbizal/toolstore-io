@@ -5,19 +5,30 @@ import axios from 'axios'
 import Tree from './Tree'
 import _ from 'lodash'
 
+Array.prototype.startsWith = function(target) {
+  const source = this.slice(0, target.length)
+  return _.isArray(target) ? _.isEqual(source, target) : false
+}
+
 class WadExplorer extends Component {
   static propTypes = {
     endpoint: PropTypes.string.isRequired,
     onFileSelect: PropTypes.func,
+    active: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
     onFileSelect: _.noop,
+    active: [],
   }
 
-  state = {
-    active: [],
-    data: null,
+  constructor(props) {
+    super(props)
+    const { active } = props
+    this.state = {
+      active,
+      data: null,
+    }
   }
 
   getChildrenStatePath = (path = []) => [
@@ -40,6 +51,33 @@ class WadExplorer extends Component {
           item =>
             item.type === 'directory' ? { ...item, children: [] } : item,
         ),
+      )
+      .then(data =>
+        _.mapValues(data, (item, key) => {
+          const itemPath = path.concat(key)
+          if (
+            item.type === 'directory' &&
+            this.state.active.startsWith(itemPath)
+          ) {
+            this.fetch(itemPath).then(() =>
+              this.setState(
+                _.set(
+                  this.state,
+                  [...this.getStatePath(itemPath), 'loading'],
+                  false,
+                ),
+              ),
+            )
+            return { ...item, open: true, loading: true }
+          }
+
+          // Should this just happen in the constructor?
+          if (item.type === 'file' && _.isEqual(this.state.active, itemPath)) {
+            this.props.onFileSelect(itemPath)
+          }
+
+          return item
+        }),
       )
       .then(data => {
         const nextState = _.set(this.state, statePath, data)
@@ -93,17 +131,15 @@ class WadExplorer extends Component {
     const { data, active } = this.state
     return (
       data && (
-        <div style={{ width: 300 }}>
-          <Tree
-            data={data}
-            active={active}
-            onNodeClick={this.handleNodeClick}
-            functions={{
-              getMeta: node =>
-                node.type === 'file' ? prettyBytes(node.size) : '',
-            }}
-          />
-        </div>
+        <Tree
+          data={data}
+          active={active}
+          onNodeClick={this.handleNodeClick}
+          functions={{
+            getMeta: node =>
+              node.type === 'file' ? prettyBytes(node.size) : '',
+          }}
+        />
       )
     )
   }
