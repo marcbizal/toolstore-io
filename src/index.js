@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import './Icons'
 import Icon from './Icon'
 import WadExplorer from './WadExplorer'
-import { Flex, Box } from 'rebass'
+import { Scrollbars } from 'react-custom-scrollbars'
 import './styles.css'
 import LightwaveObject from './Lightwave/LightwaveObject'
 import styled from 'styled-components'
@@ -22,8 +21,9 @@ const Container = styled.div`
 `
 
 const Header = styled.header`
-  margin-bottom: 32px;
   height: 64px;
+  box-shadow: 0 8px 8px #000;
+  z-index: 999;
 `
 
 const Main = styled.main`
@@ -33,14 +33,16 @@ const Main = styled.main`
 
 const Sidebar = styled.aside`
   flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  position: relative;
+
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
 `
 
 const Content = styled.div`
   flex: 2;
+
+  padding-top: 8px;
 `
 
 const Renderer = () => undefined
@@ -59,7 +61,9 @@ const FileRenderers = props => {
     return selectedFileLower.endsWith(fileTypeLower)
   })
 
-  const Render = renderer.props.render
+  const Render = renderer
+    ? renderer.props.render
+    : () => <span>File type not yet supported.</span>
 
   return <Render src={selectedFile} />
 }
@@ -84,12 +88,14 @@ class App extends Component {
         </Header>
         <Main>
           <Sidebar>
-            <div style={{ position: 'absolute', flex: 1 }}>
-              <WadExplorer
-                endpoint="https://wad.toolstore.io/rel"
-                onFileSelect={this.onFileSelect}
-              />
-            </div>
+            <Scrollbars style={{ flex: 1 }}>
+              <div style={{ paddingTop: 8, paddingRight: 30 }}>
+                <WadExplorer
+                  endpoint="https://wad.toolstore.io/rel"
+                  onFileSelect={this.onFileSelect}
+                />
+              </div>
+            </Scrollbars>
           </Sidebar>
           <Content>
             <FileRenderers selectedFile={selectedFile}>
