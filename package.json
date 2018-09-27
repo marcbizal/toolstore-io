@@ -1,5 +1,6 @@
 {
   "name": "wad-explorer",
+  "homepage": "http://marcbizal.com/toolstore.io",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -22,18 +23,26 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "16.4.2",
     "react-emotion": "9.2.8",
-    "react-json-view": "1.19.1",
-    "react-scripts": "1.1.4",
-    "react-treebeard": "2.1.0",
+    "react-scripts": "^2.0.0",
     "rebass": "^3.0.0-8",
     "styled-components": "^3.4.9",
     "three": "^0.96.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gh-pages": "^2.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
