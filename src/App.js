@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import './Icons'
 import Icon from './Icon'
 import WadExplorer from './WadExplorer'
@@ -68,7 +67,7 @@ const FileRenderers = props => {
   return <Render src={selectedFile} />
 }
 
-class App extends Component {
+export class App extends Component {
   state = {
     selectedFile: null,
   }
@@ -116,6 +115,3 @@ class App extends Component {
     )
   }
 }
-
-const rootElement = document.getElementById('root')
-ReactDOM.render(<App />, rootElement)
