@@ -6,6 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import './styles.css'
 import LightwaveObject from './Lightwave/LightwaveObject'
 import styled from 'styled-components'
+import { PlainText } from './PlainText'
 
 window.Buffer = require('buffer/').Buffer
 
@@ -99,6 +100,9 @@ export class App extends Component {
           <Content>
             <FileRenderers selectedFile={selectedFile}>
               <Renderer fileType=".bmp" render="img" />
+              <Renderer fileType=".txt" render={PlainText} />
+              <Renderer fileType=".cfg" render={PlainText} />
+              <Renderer fileType=".lws" render={PlainText} />
               <Renderer
                 fileType=".lwo"
                 render={props => (

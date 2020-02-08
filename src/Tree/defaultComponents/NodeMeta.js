@@ -1,4 +1,4 @@
-import styled from 'react-emotion'
+import styled from 'styled-components'
 const NodeMeta = styled('span')`
   float: right;
 `
