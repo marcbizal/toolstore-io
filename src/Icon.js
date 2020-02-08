@@ -1,13 +1,13 @@
 import React from 'react'
 import Brick1x1 from './Brick1x1'
-import styled from 'react-emotion'
+import styled from 'styled-components'
 
-const IconContainer = styled('div')`
+const IconContainer = styled.div`
   display: flex;
   align-items: center;
 `
 
-const IconText = styled('span')`
+const IconText = styled.span`
   font-family: 'Muli', sans-serif;
   text-rendering: optimizeLegibility;
   font-size: ${props => (props.size / 4) * 3}px;
