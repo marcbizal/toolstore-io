@@ -3,7 +3,7 @@ import _ from 'lodash'
 import loadBMP from './bmp-loader'
 import parseUrl from 'url-parse'
 
-import { parseBuffer } from 'lwo-parser'
+import { parseBuffer } from '@toolstore/lwo-parser'
 
 const debug = require('debug')('lwo')
 
@@ -53,6 +53,8 @@ async function loadLWO(url) {
 
   const buffer = Buffer.from(await loader.loadAsync(url))
   const lwo = parseBuffer(buffer)
+
+  debugger
 
   debug('loaded lwo: %o', lwo)
 
@@ -110,7 +112,7 @@ async function loadLWO(url) {
             vertices,
             groupIndices,
             attributes['TSIZ'],
-            attributes['TCTR'],
+            attributes['TCTR'] || new THREE.Vector3(0, 0, 0),
             attributes['TFLG'],
           )
         }
