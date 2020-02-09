@@ -35,9 +35,7 @@
   },
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build index.html",
-    "predeploy": "npm run build && echo 'toolstore.io' > dist/CNAME",
-    "deploy": "gh-pages -d dist"
+    "build": "parcel build index.html"
   },
   "browserslist": [
     "last 1 Chrome versions"
