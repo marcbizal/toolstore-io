@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import prettyBytes from 'pretty-bytes'
 import axios from 'axios'
-import Tree from './Tree'
+import { Tree } from '@toolstore-components/tree'
 import _ from 'lodash'
 
 Array.prototype.startsWith = function(target) {
