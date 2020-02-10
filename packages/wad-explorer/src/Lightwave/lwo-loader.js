@@ -3,7 +3,7 @@ import _ from 'lodash'
 import loadBMP from './bmp-loader'
 import parseUrl from 'url-parse'
 
-import { parseBuffer } from '@toolstore/lwo-parser'
+import { parseBuffer } from '@toolstore-io/lwo-parser'
 
 const debug = require('debug')('lwo')
 
