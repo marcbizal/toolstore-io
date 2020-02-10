@@ -1,6 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 const NodeContainer = styled('li')`
   cursor: pointer;
+
+  ${props => props.isActive && css`
+    color: #fff;
+  `}
 
   &:hover {
     color: #fff;

@@ -19,7 +19,7 @@ const Node = props => {
   const nextProps = { ...props, root: false }
   return (
     <NodeContainer
-      className={`${isActive ? styles.activeNode : ''}`}
+      isActive={isActive}
       onClick={event => {
         event.stopPropagation()
         onNodeClick(node, path)

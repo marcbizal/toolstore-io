@@ -1,11 +1,11 @@
 import React from 'react'
 const NodeList = props => {
-  const { root, path, nodes, open, styles, components } = props
+  const { root, path, nodes, open, components } = props
   const { NodeListContainer, Node } = components
   return (
     <NodeListContainer
       root={root}
-      className={`${root || open ? styles.openNode : styles.closedNode}`}
+      open={root || open}
     >
       {Object.entries(nodes).map(([key, node]) => (
         <Node

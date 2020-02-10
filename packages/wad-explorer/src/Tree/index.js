@@ -2,17 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import * as defaultComponents from './defaultComponents'
-import * as defaultStyles from './defaultStyles'
 import defaultFunctions, { noop } from './defaultFunctions'
 
 const Tree = props => {
   const { data, ...restProps } = props
 
   const components = { ...defaultComponents, ...props.components }
-  const styles = { ...defaultStyles, ...props.styles }
   const functions = { ...defaultFunctions, ...props.functions }
 
-  const nextProps = { ...restProps, components, styles, functions }
+  const nextProps = { ...restProps, components, functions }
 
   const { NodeList } = components
 
@@ -32,11 +30,6 @@ Tree.propTypes = {
     getHeader: PropTypes.func,
     getMeta: PropTypes.func,
   }),
-  styles: PropTypes.shape({
-    activeNode: PropTypes.string,
-    openNode: PropTypes.string,
-    closedNode: PropTypes.string,
-  }),
   components: PropTypes.shape({
     Node: componentType,
     NodeContainer: componentType,
@@ -51,7 +44,6 @@ Tree.propTypes = {
 Tree.defaultProps = {
   onNodeClick: noop,
   functions: defaultFunctions,
-  styles: defaultStyles,
   components: defaultComponents,
 }
 

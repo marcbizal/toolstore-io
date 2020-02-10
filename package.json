@@ -2,8 +2,8 @@
   "name": "root",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:marcbizal/toolstore.io.git",
-  "author": "Marcus Bizal <marc.bizal@gmail.com>",
+  "repository": "git@github.com:marcbizal/toolstore-io.git",
+  "author": "Marcus Bizal <marcus@toolstore.io>",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -13,6 +13,7 @@
     "lerna": "^3.20.2"
   },
   "scripts": {
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "dev": "lerna run dev --stream"
   }
 }
