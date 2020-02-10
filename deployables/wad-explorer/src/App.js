@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import './Icons'
 import Icon from './Icon'
 import WadExplorer from './WadExplorer'
 import { Scrollbars } from 'react-custom-scrollbars'

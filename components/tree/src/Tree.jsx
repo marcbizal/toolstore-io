@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import * as defaultComponents from './defaultComponents'
 import defaultFunctions, { noop } from './defaultFunctions'
 
-const Tree = props => {
+import './icons'
+
+export const Tree = props => {
   const { data, ...restProps } = props
 
   const components = { ...defaultComponents, ...props.components }
@@ -46,5 +48,3 @@ Tree.defaultProps = {
   functions: defaultFunctions,
   components: defaultComponents,
 }
-
-export default Tree

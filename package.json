@@ -7,13 +7,27 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "components/*",
+    "deployables/*"
   ],
   "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@storybook/addon-actions": "^5.3.12",
+    "@storybook/addon-links": "^5.3.12",
+    "@storybook/cli": "^5.3.12",
+    "@storybook/react": "^5.3.12",
+    "babel-loader": "^8.0.6",
     "lerna": "^3.20.2"
   },
   "scripts": {
     "build": "lerna run build",
-    "dev": "lerna run dev --stream"
+    "dev": "lerna run build --scope=@toolstore-components/* --parallel && lerna run dev --scope=@toolstore-io/* --stream",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }
