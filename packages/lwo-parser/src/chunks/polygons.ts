@@ -1,9 +1,11 @@
-function getPolygonSize(polygon) {
+import { Polygon } from '../types'
+
+export function getPolygonSize(polygon: Polygon): number {
   return 4 + (polygon.vert.length * 2);
 }
 
-function parsePolygon(buffer) {
-  const polygon = {};
+export function parsePolygon(buffer: Buffer): Polygon {
+  const polygon: Partial<Polygon> = {};
   polygon.vert = [];
   let offset = 0;
 
@@ -17,10 +19,10 @@ function parsePolygon(buffer) {
 
   polygon.surf = buffer.readUInt16BE(offset);
 
-  return polygon;
+  return polygon as Polygon;
 }
 
-function parsePolygons(buffer) {
+export function parsePolygons(buffer: Buffer): Polygon[] {
   let offset = 0;
   const polygons = [];
 
@@ -32,9 +34,3 @@ function parsePolygons(buffer) {
 
   return polygons;
 }
-
-module.exports = {
-  getPolygonSize,
-  parsePolygons,
-  parsePolygon,
-};

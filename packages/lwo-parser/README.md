@@ -1,10 +1,10 @@
-# lwo-parser [![Build Status](https://travis-ci.org/marcbizal/lwo-parser.svg?branch=master)](https://travis-ci.org/marcbizal/lwo-parser) [![Coverage Status](https://coveralls.io/repos/github/marcbizal/lwo-parser/badge.svg?branch=master)](https://coveralls.io/github/marcbizal/lwo-parser?branch=master)
+# lwo-parser
 
 LWO parser is simple parser for Lightwave Object files originally intended to support models used in LEGO Rock Raiders (LRR). LWO parser does only one thing: parse binary LWO files. It does not do anything with the data other than constructing a much simpler to use JavaScript object.
 
 ## Installation
 ```bash
-npm install --save lwo-parser
+npm install --save @toolstore-io/lwo-parser
 ```
 
 ## Usage

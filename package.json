@@ -13,16 +13,23 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@storybook/addon-actions": "^5.3.12",
+    "@storybook/addon-info": "^5.3.12",
     "@storybook/addon-links": "^5.3.12",
     "@storybook/cli": "^5.3.12",
     "@storybook/react": "^5.3.12",
     "babel-loader": "^8.0.6",
-    "lerna": "^3.20.2"
+    "lerna": "^3.20.2",
+    "react-docgen-typescript-loader": "^3.6.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "build": "lerna run build",
     "dev": "lerna run build --scope=@toolstore-components/* --parallel && lerna run dev --scope=@toolstore-io/* --stream",
+    "postinstall": "rm -rf node_modules/@types/react-native",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
