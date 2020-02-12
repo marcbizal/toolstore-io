@@ -1,6 +1,7 @@
-const core = require('../core-types');
+import * as core from '../core-types';
+import { Vector } from '../types'
 
-function parsePoints(buffer) {
+export function parsePoints(buffer: Buffer): Vector[] {
   if (buffer.length % core.VEC12_SIZE !== 0) {
     throw new Error(`F12 does not evenly divide into chunk size (${buffer.length}); possible corruption`);
   }
@@ -12,5 +13,3 @@ function parsePoints(buffer) {
 
   return pointLocations;
 }
-
-module.exports = { parsePoints };

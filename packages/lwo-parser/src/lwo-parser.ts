@@ -1,12 +1,8 @@
-window.Buffer = require('buffer/').Buffer;
+import * as iff from './chunk-parser'
+import { parsePoints, parsePolygons, parseSurface, parseSurfaceNames } from './chunks'
+import { LightwaveObject } from './types';
 
-const iff = require('./chunk-parser');
-const parsePoints = require('./chunks/points').parsePoints;
-const parseSurfaceNames = require('./chunks/surface-names').parseSurfaceNames;
-const parsePolygons = require('./chunks/polygons').parsePolygons;
-const parseSurface = require('./chunks/surface').parseSurface;
-
-function parseBuffer(buffer, rawPoints = false) {
+export function parseBuffer(buffer: Buffer, rawPoints: boolean = false): Partial<LightwaveObject> {
   let offset = 0;
 
   const { length } = iff.parseChunkHeader(buffer.slice(offset, iff.getChunkHeaderSize()));
@@ -25,7 +21,3 @@ function parseBuffer(buffer, rawPoints = false) {
     SURF: parseSurface,
   });
 }
-
-module.exports = {
-  parseBuffer,
-};

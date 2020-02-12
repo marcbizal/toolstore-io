@@ -1,25 +1,37 @@
-const CHUNK_HEADER_SIZE = 8;
-const SUBCHUNK_HEADER_SIZE = 6;
+export const CHUNK_HEADER_SIZE = 8;
+export const SUBCHUNK_HEADER_SIZE = 6;
 
-function getChunkHeaderSize(isSubchunk = false) {
+export function getChunkHeaderSize(isSubchunk = false) {
   return isSubchunk ? SUBCHUNK_HEADER_SIZE : CHUNK_HEADER_SIZE;
 }
 
-function parseChunkHeader(buffer, isSubchunk = false) {
+export interface ChunkHeader {
+  tag: string,
+  length: number
+}
+
+export function parseChunkHeader(buffer: Buffer, isSubchunk = false): ChunkHeader {
   let offset = 0;
-  const header = {};
+  const header: Partial<ChunkHeader> = {};
 
   header.tag = buffer.toString('utf8', offset, offset + 4);
   offset += 4;
 
   header.length = isSubchunk ? buffer.readUInt16BE(offset) : buffer.readUInt32BE(offset);
 
-  return header;
+  return header as ChunkHeader;
 }
 
-function parseChunks(buffer, parsers, isSubchunk = false) {
+export function isKnownTag<T>(parsers: T, tag: any): tag is keyof T {
+  return tag in parsers
+}
+
+export function parseChunks<T extends {}>(
+  buffer: Buffer,
+  parsers: { [K in keyof T]: (buffer: Buffer) => T[K] },
+  isSubchunk = false): (Partial<T> & { [unknown: string]: null }) {
   let offset = 0;
-  const chunks = {};
+  const chunks: { [unknown: string]: any } = {};
 
   while (offset < buffer.length) {
     const headerSize = getChunkHeaderSize(isSubchunk);
@@ -27,7 +39,7 @@ function parseChunks(buffer, parsers, isSubchunk = false) {
 
     offset += headerSize;
 
-    const parser = parsers[tag] || (() => {
+    const parser = isKnownTag(parsers, tag) ? parsers[tag] : (() => {
       console.warn(`${isSubchunk ? 'Subchunk' : 'Chunk'} parser not found for ${tag}`);
       return null;
     });
@@ -46,11 +58,5 @@ function parseChunks(buffer, parsers, isSubchunk = false) {
     if (length % 2) offset += 1;
   }
 
-  return chunks;
+  return chunks as Partial<T> & { [unknown: string]: any };
 }
-
-module.exports = {
-  getChunkHeaderSize,
-  parseChunkHeader,
-  parseChunks,
-};

@@ -1,4 +1,6 @@
-function parseString(buffer) {
+import { Vector, Color } from './types'
+
+export function parseString(buffer: Buffer): string {
   let offset = 0;
 
   while (offset < buffer.length) {
@@ -8,12 +10,12 @@ function parseString(buffer) {
     offset += 1;
   }
 
-  return null;
+  throw new Error('Never reached the end of a null terminated string.')
 }
 
-const VEC12_SIZE = 12;
+export const VEC12_SIZE = 12;
 
-function parseVector(buffer) {
+export function parseVector(buffer: Buffer): Vector {
   return {
     x: buffer.readFloatBE(0),
     y: buffer.readFloatBE(4),
@@ -21,7 +23,7 @@ function parseVector(buffer) {
   };
 }
 
-function parseColor(buffer) {
+export function parseColor(buffer: Buffer): Color {
   return {
     red: buffer.readUInt8(0),
     green: buffer.readUInt8(1),
@@ -29,10 +31,3 @@ function parseColor(buffer) {
     pad: buffer.readUInt8(0),
   };
 }
-
-module.exports = {
-  parseString,
-  VEC12_SIZE,
-  parseVector,
-  parseColor,
-};

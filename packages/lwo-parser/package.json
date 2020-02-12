@@ -2,28 +2,17 @@
   "name": "@toolstore-io/lwo-parser",
   "version": "1.1.3",
   "description": "A simple parser for LWOB files",
-  "main": "lib/lwo-parser.js",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-plugin-import": "^2.2.0",
-    "istanbul": "^0.3.14",
-    "mocha": "^2.5.3",
-    "mocha-eslint": "^3.0.1"
-  },
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "scripts": {
-    "test": "mocha --recursive",
-    "cover": "istanbul cover _mocha -- --recursive",
-    "coveralls": "istanbul cover _mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "build": "microbundle",
+    "dev": "microbundle watch"
   },
-  "eslintConfig": {
-    "extends": "airbnb-base",
-    "env": {
-      "browser": true,
-      "node": true,
-      "mocha": true
-    }
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "jest": "^25.1.0",
+    "microbundle": "^0.11.0"
   },
   "keywords": [
     "lightwave",
@@ -33,18 +22,7 @@
     "decode",
     "unpack"
   ],
-  "author": {
-    "name": "Marcus Bizal",
-    "email": "hello@marcbizal.com",
-    "url": "http://marcbizal.com/"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/marcbizal/lwo-parser.git"
-  },
-  "bugs": "https://github.com/marcbizal/lwo-parser/issues",
-  "dependencies": {
-    "coveralls": "^2.12.0"
-  }
+  "files": [
+    "dist"
+  ]
 }

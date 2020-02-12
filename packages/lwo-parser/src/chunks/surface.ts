@@ -1,14 +1,15 @@
-const core = require('../core-types')
-const iff = require('../chunk-parser')
+import * as core from '../core-types'
+import * as iff from '../chunk-parser'
+import { Wrap, Surface, SequenceOptions } from '../types'
 
-function parseWrap(buffer) {
+function parseWrap(buffer: Buffer): Wrap {
   return {
     widthWrap: buffer.readUInt16BE(0),
     heightWrap: buffer.readUInt16BE(0),
   }
 }
 
-function parseSequenceOptions(buffer) {
+function parseSequenceOptions(buffer: Buffer): SequenceOptions {
   return {
     offset: buffer.readUInt16BE(0),
     flags: core.parseBitFlags(buffer, ['loop', 'interlace']),
@@ -16,9 +17,9 @@ function parseSequenceOptions(buffer) {
   }
 }
 
-function parseSurface(buffer) {
+export function parseSurface(buffer: Buffer): Surface {
   let offset = 0
-  const surface = {}
+  const surface: Partial<Surface> = {}
 
   surface.name = core.parseString(buffer)
   offset += surface.name.length + (surface.name.length % 2)
@@ -107,10 +108,5 @@ function parseSurface(buffer) {
     true,
   )
 
-  return surface
-}
-
-module.exports = {
-  parseSurface,
-  parseWrap,
+  return surface as Surface
 }

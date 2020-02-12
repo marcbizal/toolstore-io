@@ -1,0 +1,23 @@
+{
+  "name": "lightwave-object",
+  "version": "1.0.0",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "license": "MIT",
+  "scripts": {
+    "build": "microbundle --jsx React.createElement",
+    "dev": "microbundle watch --jsx React.createElement"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.19",
+    "@types/styled-components": "^4.4.3",
+    "microbundle": "^0.11.0"
+  },
+  "peerDependencies": {
+    "react": "^16.12.0",
+    "react-three-fiber": "^4.0.16",
+    "styled-components": "^5.0.1",
+    "three": "^0.113.2"
+  }
+}

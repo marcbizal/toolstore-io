@@ -1,6 +1,6 @@
-const core = require('../core-types');
+import * as core from '../core-types'
 
-function parseSurfaceNames(buffer) {
+export function parseSurfaceNames(buffer: Buffer): string[] {
   let offset = 0;
   const surfaceNames = [];
 
@@ -12,5 +12,3 @@ function parseSurfaceNames(buffer) {
 
   return surfaceNames;
 }
-
-module.exports = { parseSurfaceNames };
