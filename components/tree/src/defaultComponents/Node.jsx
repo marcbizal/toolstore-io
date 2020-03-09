@@ -18,22 +18,27 @@ const Node = props => {
 
   const nextProps = { ...props, root: false }
   return (
-    <NodeContainer
-      isActive={isActive}
-      onClick={event => {
-        event.stopPropagation()
-        onNodeClick(node, path)
-      }}
-    >
-      <NodeIcon node={node} getIcon={getIcon} />
-      <NodeHeader>{getHeader(node)}</NodeHeader>
-      <NodeMeta>
-        {typeof node.loading !== 'undefined' && node.loading ? (
-          <FontAwesomeIcon icon="circle-notch" spin style={{ marginLeft: 8 }} />
-        ) : (
-          getMeta(node)
-        )}
-      </NodeMeta>
+    <NodeContainer isActive={isActive}>
+      <NodeHeader
+        onClick={event => {
+          event.stopPropagation()
+          onNodeClick(node, path)
+        }}
+      >
+        <NodeIcon node={node} getIcon={getIcon} />
+        {getHeader(node)}
+        <NodeMeta>
+          {typeof node.loading !== 'undefined' && node.loading ? (
+            <FontAwesomeIcon
+              icon="circle-notch"
+              spin
+              style={{ marginLeft: 8 }}
+            />
+          ) : (
+            getMeta(node)
+          )}
+        </NodeMeta>
+      </NodeHeader>
       {node.children && (
         <NodeList
           {...nextProps}

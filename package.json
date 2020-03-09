@@ -17,6 +17,7 @@
     "@babel/preset-typescript": "^7.8.3",
     "@storybook/addon-actions": "^5.3.12",
     "@storybook/addon-info": "^5.3.12",
+    "@storybook/addon-knobs": "^5.3.13",
     "@storybook/addon-links": "^5.3.12",
     "@storybook/cli": "^5.3.12",
     "@storybook/react": "^5.3.12",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "dev": "lerna run build --scope=@toolstore-components/* --parallel && lerna run dev --scope=@toolstore-io/* --stream",
+    "dev": "lerna run dev --scope=@toolstore-io/* --scope=@toolstore-components/* --stream --parallel",
     "postinstall": "rm -rf node_modules/@types/react-native",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
