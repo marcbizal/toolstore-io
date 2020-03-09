@@ -6,6 +6,8 @@ import './styles.css'
 import LightwaveObject from './Lightwave/LightwaveObject'
 import styled from 'styled-components'
 import { PlainText } from './PlainText'
+import LightwaveScene from './Lightwave/LightwaveScene'
+import { Audio } from './Audio'
 
 window.Buffer = require('buffer/').Buffer
 
@@ -41,7 +43,7 @@ const Sidebar = styled.aside`
 const Content = styled.div`
   flex: 2;
 
-  padding-top: 8px;
+  padding: 16px;
 `
 
 const Renderer = () => undefined
@@ -99,9 +101,11 @@ export class App extends Component {
           <Content>
             <FileRenderers selectedFile={selectedFile}>
               <Renderer fileType=".bmp" render="img" />
+              <Renderer fileType=".wav" render={Audio} />
               <Renderer fileType=".txt" render={PlainText} />
               <Renderer fileType=".cfg" render={PlainText} />
-              <Renderer fileType=".lws" render={PlainText} />
+              <Renderer fileType=".ae" render={PlainText} />
+              <Renderer fileType=".lws" render={LightwaveScene} />
               <Renderer
                 fileType=".lwo"
                 render={props => (
