@@ -3,6 +3,8 @@ import _ from 'lodash'
 import loadLWO from './lwo-loader'
 const debug = require('debug')('lws')
 
+const degreesToRadians = degrees => degrees * (Math.PI / 180)
+
 export async function loadLightwaveScene(url) {
   const lws = await fetch(url).then(response => response.text())
 
@@ -31,7 +33,7 @@ export async function loadLightwaveScene(url) {
         const [_version] = nextLine()
         version = _version
 
-        debug('LWS file format version is ')
+        debug(`LWS file format version is ${_version}`)
         break
       }
       case 'FirstFrame': {
@@ -110,7 +112,13 @@ export async function loadLightwaveScene(url) {
           positionKeyframes.push(xPosition, yPosition, zPosition)
           rotationKeyframes.push(
             ...new THREE.Quaternion()
-              .setFromEuler(new THREE.Euler(pitch, heading, bank))
+              .setFromEuler(
+                new THREE.Euler(
+                  degreesToRadians(pitch),
+                  degreesToRadians(heading),
+                  degreesToRadian(bank),
+                ),
+              )
               .toArray(),
           )
           scaleKeyframes.push(xScale, yScale, zScale)
@@ -125,7 +133,7 @@ export async function loadLightwaveScene(url) {
         )
         tracks.push(
           new THREE.QuaternionKeyframeTrack(
-            `${currentNode.uuid}.rotation`,
+            `${currentNode.uuid}.quaternion`,
             keyframeTimes,
             rotationKeyframes,
           ),
@@ -155,6 +163,8 @@ export async function loadLightwaveScene(url) {
   )
 
   const rootNodes = nodes.filter(node => !node.parent)
+
+  debug(`Loaded LWS Scene with ${rootNodes.length} root nodes:`, rootNodes)
 
   const scene = new THREE.Group()
 
