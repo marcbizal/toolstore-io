@@ -127,6 +127,14 @@ async function loadLWO(url) {
         material.color = new THREE.Color(`rgb(${red}, ${green}, ${blue})`)
       }
 
+      if ('FLAG' in attributes) {
+        const { additive } = attributes['FLAG']
+        if (additive) {
+          material.transparent = true
+          material.blending = THREE.AdditiveBlending
+        }
+      }
+
       if ('TIMG' in attributes) {
         const filename = trimNull(
           (Array.isArray(attributes['TIMG'])
