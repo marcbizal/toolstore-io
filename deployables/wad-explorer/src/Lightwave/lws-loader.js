@@ -33,7 +33,7 @@ export async function loadLightwaveScene(url) {
         const [_version] = nextLine()
         version = _version
 
-        debug(`LWS file format version is ${_version}`)
+        debug(`LWS file format version is ${version}`)
         break
       }
       case 'FirstFrame': {
@@ -116,7 +116,7 @@ export async function loadLightwaveScene(url) {
                 new THREE.Euler(
                   degreesToRadians(pitch),
                   degreesToRadians(heading),
-                  degreesToRadian(bank),
+                  degreesToRadians(bank),
                 ),
               )
               .toArray(),
@@ -145,6 +145,42 @@ export async function loadLightwaveScene(url) {
             scaleKeyframes,
           ),
         )
+        break
+      }
+      case 'ObjDissolve': {
+        const [_arg] = tokens
+        if (_arg === '(envelope)') {
+          const [_numChannels] = nextLine()
+          const [_numKeyframes] = nextLine()
+
+          const keyframeTimes = []
+          const envelopeKeyframes = []
+          for (let i = 0; i < _numKeyframes; i++) {
+            const [envelopeValue] = nextLine().map(s => parseFloat(s))
+
+            const [
+              frameNumber,
+              linearValue,
+              tension,
+              continuity,
+              bias,
+            ] = nextLine().map(s => parseFloat(s))
+
+            keyframeTimes.push(frameNumber / fps)
+            envelopeKeyframes.push(1 - envelopeValue)
+          }
+
+          tracks.push(
+            ...currentNode.material.map((material, i) => {
+              material.transparent = true
+              return new THREE.NumberKeyframeTrack(
+                `${currentNode.uuid}.material[${i}].opacity`,
+                keyframeTimes,
+                envelopeKeyframes,
+              )
+            }),
+          )
+        }
         break
       }
       case 'ParentObject': {
