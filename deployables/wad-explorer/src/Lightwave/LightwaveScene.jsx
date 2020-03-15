@@ -48,6 +48,7 @@ export default ({ src }) => (
     pixelRatio={window.devicePixelRatio}
     camera={new THREE.Camera().translateZ(30)}
   >
+    <gridHelper args={[120, 12]} />
     <LightwaveScene src={src} />
   </Canvas>
 )

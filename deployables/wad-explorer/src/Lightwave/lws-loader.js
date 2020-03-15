@@ -1,4 +1,9 @@
 import * as THREE from 'three'
+import {
+  InterpolateKochanekBartels,
+  InterpolateMixed,
+  PatchedKeyframeTrack,
+} from './three/PatchedKeyframeTrack'
 import _ from 'lodash'
 import loadLWO from './lwo-loader'
 const debug = require('debug')('lws')
@@ -109,7 +114,17 @@ export async function loadLightwaveScene(url) {
           ] = nextLine().map(s => parseFloat(s))
 
           keyframeTimes.push(frameNumber / fps)
-          positionKeyframes.push(xPosition, yPosition, zPosition)
+          positionKeyframes.push(
+            xPosition,
+            yPosition,
+            zPosition,
+            linearValue === 0
+              ? InterpolateKochanekBartels
+              : THREE.InterpolateLinear,
+            tension,
+            continuity,
+            bias,
+          )
           rotationKeyframes.push(
             ...new THREE.Quaternion()
               .setFromEuler(
@@ -120,22 +135,40 @@ export async function loadLightwaveScene(url) {
                 ),
               )
               .toArray(),
+            linearValue === 0
+              ? InterpolateKochanekBartels
+              : THREE.InterpolateLinear,
+            tension,
+            continuity,
+            bias,
           )
-          scaleKeyframes.push(xScale, yScale, zScale)
+          scaleKeyframes.push(
+            xScale,
+            yScale,
+            zScale,
+            linearValue === 0
+              ? InterpolateKochanekBartels
+              : THREE.InterpolateLinear,
+            tension,
+            continuity,
+            bias,
+          )
         }
 
         tracks.push(
-          new THREE.VectorKeyframeTrack(
+          new PatchedKeyframeTrack(
             `${currentNode.uuid}.position`,
             keyframeTimes,
             positionKeyframes,
+            InterpolateMixed,
           ),
         )
         tracks.push(
-          new THREE.QuaternionKeyframeTrack(
+          new PatchedKeyframeTrack(
             `${currentNode.uuid}.quaternion`,
             keyframeTimes,
             rotationKeyframes,
+            InterpolateMixed,
           ),
         )
         tracks.push(
@@ -143,6 +176,7 @@ export async function loadLightwaveScene(url) {
             `${currentNode.uuid}.scale`,
             keyframeTimes,
             scaleKeyframes,
+            InterpolateMixed,
           ),
         )
         break
@@ -170,15 +204,25 @@ export async function loadLightwaveScene(url) {
             envelopeKeyframes.push(1 - envelopeValue)
           }
 
+          currentNode.userData.opacity = 1.0
+          currentNode.onBeforeRender = function(
+            renderer,
+            scene,
+            camera,
+            geometry,
+            material,
+            group,
+          ) {
+            material.transparent = this.userData.opacity < 1
+            material.opacity = this.userData.opacity
+          }
+
           tracks.push(
-            ...currentNode.material.map((material, i) => {
-              material.transparent = true
-              return new THREE.NumberKeyframeTrack(
-                `${currentNode.uuid}.material[${i}].opacity`,
-                keyframeTimes,
-                envelopeKeyframes,
-              )
-            }),
+            new THREE.NumberKeyframeTrack(
+              `${currentNode.uuid}.userData[opacity]`,
+              keyframeTimes,
+              envelopeKeyframes,
+            ),
           )
         }
         break
