@@ -108,3 +108,6 @@ dist
 
 # Storybook build
 storybook-static
+
+# macOS hidden files
+.DS_Store

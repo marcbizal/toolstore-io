@@ -105,6 +105,8 @@ export class App extends Component {
               <Renderer fileType=".txt" render={PlainText} />
               <Renderer fileType=".cfg" render={PlainText} />
               <Renderer fileType=".ae" render={PlainText} />
+              <Renderer fileType=".uv" render={PlainText} />
+              <Renderer fileType=".x" render={PlainText} />
               <Renderer fileType=".lws" render={LightwaveScene} />
               <Renderer
                 fileType=".lwo"
